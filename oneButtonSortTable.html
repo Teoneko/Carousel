@@ -1,0 +1,91 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<style>
+		table {
+			border-collapse: collapse;
+		}
+
+		th,
+		td {
+			border: 1px solid black;
+			padding: 4px;
+		}
+
+		th {
+			cursor: pointer;
+		}
+
+		th:hover {
+			background: yellow;
+		}
+	</style>
+</head>
+
+<body>
+
+	<table id="grid">
+		<thead>
+			<tr>
+				<th data-type="number">Возраст</th>
+				<th data-type="string">Имя</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>5</td>
+				<td>Вася</td>
+			</tr>
+			<tr>
+				<td>2</td>
+				<td>Петя</td>
+			</tr>
+			<tr>
+				<td>12</td>
+				<td>Женя</td>
+			</tr>
+			<tr>
+				<td>9</td>
+				<td>Маша</td>
+			</tr>
+			<tr>
+				<td>1</td>
+				<td>Илья</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<script>
+		const table = document.querySelector('table');
+		let sortedRows = Array.from(table.rows)
+			.slice(1);
+		table.onclick = function (event) {
+			let target = event.target;
+
+			if (target.dataset.type === 'number') {
+				function compareNum(rowA, rowB) {
+					return rowA.cells[target.cellIndex].innerHTML - rowB.cells[target.cellIndex].innerHTML
+				}
+				sortedRows.sort(compareNum)
+
+				table.tBodies[0].append(...sortedRows);
+			} else if (target.dataset.type === 'string') {
+				function compareStr(rowA, rowB) {
+					if (rowA.cells[target.cellIndex].innerHTML < rowB.cells[target.cellIndex].innerHTML) { return -1; }
+					if (rowA.cells[target.cellIndex].innerHTML > rowB.cells[target.cellIndex].innerHTML) { return 1; }
+					return 0;
+				}
+				sortedRows.sort(compareStr)
+
+				table.tBodies[0].append(...sortedRows);
+			}
+
+		}
+
+	</script>
+
+</body>
+
+</html>
